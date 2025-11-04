@@ -338,6 +338,35 @@ After running migrations, use these credentials to login:
 - **Email**: admin@example.com
 - **Password**: admin123
 
+## Git Repository Setup
+
+The project includes comprehensive `.gitignore` files to exclude unnecessary files from version control:
+
+### Root `.gitignore`
+- Excludes `node_modules/` from both frontend and backend
+- Ignores environment files (`.env`)
+- Excludes build outputs and logs
+- Ignores IDE and OS-specific files
+
+### Backend `.gitignore`
+- Node modules and dependencies
+- Environment variables
+- Uploaded files (`uploads/`)
+- Logs and cache files
+- IDE configurations
+
+### Frontend `.gitignore`
+- Angular build outputs (`/dist`, `/tmp`)
+- Node modules
+- Angular cache (`.angular/cache`)
+- IDE and editor files
+- Test coverage reports
+
+**Important**: Before pushing to a repository:
+1. Ensure `.env` files are not committed (they're in `.gitignore`)
+2. Run `npm install` to install dependencies (not included in repo)
+3. Create your own `.env` file based on `.env.example`
+
 ## Troubleshooting
 
 ### Database Connection Error
@@ -353,6 +382,11 @@ After running migrations, use these credentials to login:
 - Check `UPLOAD_DIR` exists
 - Verify file size limits in `.env`
 - Ensure proper file permissions
+
+### Compilation Errors
+- Delete `node_modules/` and run `npm install` again
+- Clear Angular cache: `rm -rf .angular/cache`
+- Restart the development server
 
 ## License
 

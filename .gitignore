@@ -1,0 +1,68 @@
+# Root .gitignore for Product Management System
+
+# Node modules in both frontend and backend
+node_modules/
+**/node_modules/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+**/.env
+**/.env.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Build outputs
+dist/
+build/
+out/
+.next/
+.nuxt/
+
+# Angular specific
+frontend/.angular/
+frontend/dist/
+frontend/tmp/
+frontend/out-tsc/
+
+# Uploads directory
+backend/uploads/
+uploads/
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Testing
+*.spec.js
+*.test.js
+
+# Package manager lock files (optional - uncomment if needed)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml

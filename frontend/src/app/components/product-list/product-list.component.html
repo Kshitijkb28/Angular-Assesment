@@ -1,32 +1,56 @@
 <div class="container">
-  <h1>Product Management</h1>
-
-  <div *ngIf="error" class="alert alert-error">{{ error }}</div>
-  <div *ngIf="success" class="alert alert-success">{{ success }}</div>
-
-  <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-    <button class="btn btn-primary" (click)="openModal()">Add Product</button>
-    <button class="btn btn-success" (click)="openBulkUploadModal()">Bulk Upload</button>
-    <button class="btn btn-secondary" (click)="downloadReport('csv')">Download CSV</button>
-    <button class="btn btn-secondary" (click)="downloadReport('xlsx')">Download XLSX</button>
+  <div class="page-header">
+    <h1>📦 Product Management</h1>
+    <p class="subtitle">Manage your product inventory with ease</p>
   </div>
 
-  <div class="search-bar">
-    <input 
-      type="text" 
-      class="form-control" 
-      [(ngModel)]="searchTerm" 
-      (keyup.enter)="onSearch()"
-      placeholder="Search products...">
+  <div *ngIf="error" class="alert alert-error">
+    <strong>⚠️ Error:</strong> {{ error }}
+  </div>
+  <div *ngIf="success" class="alert alert-success">
+    <strong>✓ Success:</strong> {{ success }}
+  </div>
+
+  <div class="action-bar">
+    <div class="action-buttons">
+      <button class="btn btn-primary" (click)="openModal()">
+        <span class="btn-icon">➕</span> Add Product
+      </button>
+      <button class="btn btn-success" (click)="openBulkUploadModal()">
+        <span class="btn-icon">📤</span> Bulk Upload
+      </button>
+    </div>
+    <div class="report-buttons">
+      <button class="btn btn-secondary" (click)="downloadReport('csv')">
+        <span class="btn-icon">📄</span> CSV
+      </button>
+      <button class="btn btn-secondary" (click)="downloadReport('xlsx')">
+        <span class="btn-icon">📊</span> XLSX
+      </button>
+    </div>
+  </div>
+
+  <div class="search-bar card">
+    <div class="search-input-group">
+      <span class="search-icon">🔍</span>
+      <input 
+        type="text" 
+        class="form-control search-input" 
+        [(ngModel)]="searchTerm" 
+        (keyup.enter)="onSearch()"
+        placeholder="Search products by name...">
+    </div>
     
-    <select class="form-control" [(ngModel)]="categoryFilter" (change)="onSearch()">
-      <option value="">All Categories</option>
+    <select class="form-control category-select" [(ngModel)]="categoryFilter" (change)="onSearch()">
+      <option value="">🏷️ All Categories</option>
       <option *ngFor="let category of categories" [value]="category.id">
         {{ category.name }}
       </option>
     </select>
 
-    <button class="btn btn-primary" (click)="onSearch()">Search</button>
+    <button class="btn btn-primary search-btn" (click)="onSearch()">
+      <span class="btn-icon">🔍</span> Search
+    </button>
   </div>
 
   <div *ngIf="loading" class="loading">Loading...</div>
@@ -35,33 +59,41 @@
     <table class="table">
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Unique ID</th>
-          <th>Name</th>
-          <th (click)="onSort('price')" style="cursor: pointer;">
-            Price {{ sortBy === 'price' ? (sortOrder === 'asc' ? '↑' : '↓') : '' }}
+          <th>#</th>
+          <th>Image</th>
+          <th>Product Name</th>
+          <th (click)="onSort('price')" class="sortable">
+            💰 Price {{ sortBy === 'price' ? (sortOrder === 'asc' ? '↑' : '↓') : '⇅' }}
           </th>
           <th>Category</th>
-          <th>Image</th>
+          <th>Unique ID</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let product of products">
-          <td>{{ product.id }}</td>
-          <td>{{ product.uniqueId }}</td>
-          <td>{{ product.name }}</td>
-          <td>${{ product.price }}</td>
-          <td>{{ product.category?.name }}</td>
+        <tr *ngFor="let product of products; let i = index">
+          <td><strong>{{ (currentPage - 1) * pageSize + i + 1 }}</strong></td>
           <td>
-            <img *ngIf="product.image" [src]="'http://localhost:3000/uploads/' + product.image" 
-                 alt="{{ product.name }}" style="width: 50px; height: 50px; object-fit: cover;">
-            <span *ngIf="!product.image">No image</span>
+            <div class="product-image-wrapper">
+              <img *ngIf="product.image" 
+                   [src]="'http://localhost:3000/uploads/' + product.image" 
+                   alt="{{ product.name }}" 
+                   class="product-image">
+              <div *ngIf="!product.image" class="no-image">📷</div>
+            </div>
           </td>
+          <td><strong>{{ product.name }}</strong></td>
+          <td><span class="price-tag">${{ product.price }}</span></td>
+          <td><span class="category-badge">{{ product.category?.name }}</span></td>
+          <td><code class="unique-id">{{ product.uniqueId }}</code></td>
           <td>
             <div class="actions">
-              <button class="btn btn-primary" (click)="openModal(product)">Edit</button>
-              <button class="btn btn-danger" (click)="deleteProduct(product.id)">Delete</button>
+              <button class="btn btn-primary btn-sm" (click)="openModal(product)">
+                ✏️ Edit
+              </button>
+              <button class="btn btn-danger btn-sm" (click)="deleteProduct(product.id)">
+                🗑️ Delete
+              </button>
             </div>
           </td>
         </tr>

@@ -10,6 +10,7 @@ export class UserListComponent implements OnInit {
   users: any[] = [];
   loading = false;
   error = '';
+  success = '';
 
   constructor(private userService: UserService) { }
 
@@ -35,6 +36,7 @@ export class UserListComponent implements OnInit {
     if (confirm('Are you sure you want to delete this user?')) {
       this.userService.deleteUser(id).subscribe({
         next: () => {
+          this.success = 'User deleted successfully';
           this.loadUsers();
         },
         error: (err) => {
