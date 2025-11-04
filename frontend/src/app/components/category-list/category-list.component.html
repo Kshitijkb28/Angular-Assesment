@@ -1,0 +1,58 @@
+<div class="container">
+  <h1>Category Management</h1>
+
+  <div *ngIf="error" class="alert alert-error">{{ error }}</div>
+  <div *ngIf="success" class="alert alert-success">{{ success }}</div>
+
+  <button class="btn btn-primary" (click)="openModal()">Add Category</button>
+
+  <div *ngIf="loading" class="loading">Loading...</div>
+
+  <div *ngIf="!loading" class="card">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Unique ID</th>
+          <th>Name</th>
+          <th>Products</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let category of categories">
+          <td>{{ category.id }}</td>
+          <td>{{ category.uniqueId }}</td>
+          <td>{{ category.name }}</td>
+          <td>{{ category.products?.length || 0 }}</td>
+          <td>
+            <div class="actions">
+              <button class="btn btn-primary" (click)="openModal(category)">Edit</button>
+              <button class="btn btn-danger" (click)="deleteCategory(category.id)">Delete</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <h2>{{ editingCategory ? 'Edit Category' : 'Add Category' }}</h2>
+    
+    <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Category Name</label>
+        <input type="text" class="form-control" formControlName="name" placeholder="Enter category name">
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary" [disabled]="categoryForm.invalid">
+          {{ editingCategory ? 'Update' : 'Create' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

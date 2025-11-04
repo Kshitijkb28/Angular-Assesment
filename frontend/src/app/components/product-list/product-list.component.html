@@ -1,0 +1,156 @@
+<div class="container">
+  <h1>Product Management</h1>
+
+  <div *ngIf="error" class="alert alert-error">{{ error }}</div>
+  <div *ngIf="success" class="alert alert-success">{{ success }}</div>
+
+  <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+    <button class="btn btn-primary" (click)="openModal()">Add Product</button>
+    <button class="btn btn-success" (click)="openBulkUploadModal()">Bulk Upload</button>
+    <button class="btn btn-secondary" (click)="downloadReport('csv')">Download CSV</button>
+    <button class="btn btn-secondary" (click)="downloadReport('xlsx')">Download XLSX</button>
+  </div>
+
+  <div class="search-bar">
+    <input 
+      type="text" 
+      class="form-control" 
+      [(ngModel)]="searchTerm" 
+      (keyup.enter)="onSearch()"
+      placeholder="Search products...">
+    
+    <select class="form-control" [(ngModel)]="categoryFilter" (change)="onSearch()">
+      <option value="">All Categories</option>
+      <option *ngFor="let category of categories" [value]="category.id">
+        {{ category.name }}
+      </option>
+    </select>
+
+    <button class="btn btn-primary" (click)="onSearch()">Search</button>
+  </div>
+
+  <div *ngIf="loading" class="loading">Loading...</div>
+
+  <div *ngIf="!loading" class="card">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Unique ID</th>
+          <th>Name</th>
+          <th (click)="onSort('price')" style="cursor: pointer;">
+            Price {{ sortBy === 'price' ? (sortOrder === 'asc' ? '↑' : '↓') : '' }}
+          </th>
+          <th>Category</th>
+          <th>Image</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products">
+          <td>{{ product.id }}</td>
+          <td>{{ product.uniqueId }}</td>
+          <td>{{ product.name }}</td>
+          <td>${{ product.price }}</td>
+          <td>{{ product.category?.name }}</td>
+          <td>
+            <img *ngIf="product.image" [src]="'http://localhost:3000/uploads/' + product.image" 
+                 alt="{{ product.name }}" style="width: 50px; height: 50px; object-fit: cover;">
+            <span *ngIf="!product.image">No image</span>
+          </td>
+          <td>
+            <div class="actions">
+              <button class="btn btn-primary" (click)="openModal(product)">Edit</button>
+              <button class="btn btn-danger" (click)="deleteProduct(product.id)">Delete</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pagination" *ngIf="totalPages > 1">
+      <button (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1">
+        Previous
+      </button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button (click)="onPageChange(currentPage + 1)" [disabled]="currentPage === totalPages">
+        Next
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Product Modal -->
+<div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <h2>{{ editingProduct ? 'Edit Product' : 'Add Product' }}</h2>
+    
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Product Name</label>
+        <input type="text" class="form-control" formControlName="name" placeholder="Enter product name">
+      </div>
+
+      <div class="form-group">
+        <label>Price</label>
+        <input type="number" class="form-control" formControlName="price" placeholder="Enter price" step="0.01">
+      </div>
+
+      <div class="form-group">
+        <label>Category</label>
+        <select class="form-control" formControlName="categoryId">
+          <option value="">Select category</option>
+          <option *ngFor="let category of categories" [value]="category.id">
+            {{ category.name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Image</label>
+        <input type="file" class="form-control" (change)="onFileSelected($event)" accept="image/*">
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary" [disabled]="productForm.invalid">
+          {{ editingProduct ? 'Update' : 'Create' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Bulk Upload Modal -->
+<div class="modal-overlay" *ngIf="showBulkUploadModal" (click)="closeBulkUploadModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <h2>Bulk Upload Products</h2>
+    
+    <div class="alert alert-info">
+      <p><strong>Instructions:</strong></p>
+      <ul>
+        <li>Upload a CSV or XLSX file</li>
+        <li>Required columns: name, price, categoryId</li>
+        <li>Optional column: image</li>
+      </ul>
+    </div>
+
+    <div class="form-group">
+      <label>Select File</label>
+      <input type="file" class="form-control" (change)="onBulkFileSelected($event)" 
+             accept=".csv,.xlsx,.xls">
+    </div>
+
+    <div *ngIf="bulkUploadProgress" class="alert alert-info">
+      {{ bulkUploadProgress }}
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" class="btn btn-secondary" (click)="closeBulkUploadModal()">Cancel</button>
+      <button type="button" class="btn btn-primary" (click)="onBulkUpload()" 
+              [disabled]="!bulkUploadFile || bulkUploadProgress">
+        Upload
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+<nav class="navbar" *ngIf="authService.isLoggedIn()">
+  <div class="container">
+    <div>
+      <span class="brand">Product Management</span>
+      <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      <a routerLink="/users" routerLinkActive="active">Users</a>
+      <a routerLink="/categories" routerLinkActive="active">Categories</a>
+      <a routerLink="/products" routerLinkActive="active">Products</a>
+    </div>
+    <div>
+      <button class="btn btn-secondary" (click)="logout()">Logout</button>
+    </div>
+  </div>
+</nav>
