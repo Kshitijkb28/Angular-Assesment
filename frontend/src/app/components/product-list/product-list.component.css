@@ -10,12 +10,10 @@
 }
 
 .page-header h1 {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-size: 1.875rem;
+  margin-bottom: 8px;
+  color: #1f2937;
+  font-weight: 700;
 }
 
 .subtitle {
@@ -85,7 +83,8 @@
 }
 
 .sortable:hover {
-  background: linear-gradient(135deg, #5568d3 0%, #63408a 100%) !important;
+  background: #e5e7eb !important;
+  color: #1f2937 !important;
 }
 
 .product-image-wrapper {
@@ -115,29 +114,33 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: #f3f4f6;
   border-radius: 8px;
-  font-size: 1.5rem;
+  font-size: 0.7rem;
+  color: #9ca3af;
+  border: 1px dashed #d1d5db;
 }
 
 .price-tag {
   display: inline-block;
-  padding: 6px 12px;
-  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-  color: white;
-  border-radius: 20px;
+  padding: 4px 10px;
+  background: #ecfdf5;
+  color: #065f46;
+  border-radius: 6px;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.9rem;
+  border: 1px solid #d1fae5;
 }
 
 .category-badge {
   display: inline-block;
-  padding: 4px 12px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border-radius: 12px;
-  font-size: 0.85rem;
+  padding: 4px 10px;
+  background: #eef2ff;
+  color: #4338ca;
+  border-radius: 6px;
+  font-size: 0.8rem;
   font-weight: 500;
+  border: 1px solid #e0e7ff;
 }
 
 .unique-id {
@@ -149,15 +152,52 @@
   color: #495057;
 }
 
-.btn-sm {
-  padding: 6px 12px;
-  font-size: 0.85rem;
+.action-buttons {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-start;
 }
 
-.actions {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border: 1px solid;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: white;
+}
+
+.action-btn svg {
+  flex-shrink: 0;
+}
+
+.edit-btn {
+  color: #4f46e5;
+  border-color: #e0e7ff;
+}
+
+.edit-btn:hover {
+  background: #eef2ff;
+  border-color: #c7d2fe;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(79, 70, 229, 0.1);
+}
+
+.delete-btn {
+  color: #dc2626;
+  border-color: #fecaca;
+}
+
+.delete-btn:hover {
+  background: #fef2f2;
+  border-color: #fca5a5;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);
 }
 
 .pagination {
@@ -171,20 +211,20 @@
 }
 
 .pagination button {
-  padding: 10px 20px;
-  border: none;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  padding: 8px 16px;
+  border: 1px solid #d1d5db;
+  background: white;
+  color: #374151;
   cursor: pointer;
   border-radius: 6px;
-  font-weight: 600;
-  transition: all 0.3s;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-weight: 500;
+  transition: all 0.2s;
+  font-size: 0.875rem;
 }
 
 .pagination button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.4);
+  background: #f9fafb;
+  border-color: #9ca3af;
 }
 
 .pagination button:disabled {

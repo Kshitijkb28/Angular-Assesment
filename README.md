@@ -275,6 +275,11 @@ GET /api/products?page=1&limit=10&sortBy=price&sortOrder=asc&search=laptop
 
 ## Bulk Upload Format
 
+### Important: Category Validation
+**Before bulk uploading products, ensure categories exist in the database.**
+
+The system validates that each product's `categoryId` exists before importing. Products with non-existent category IDs will be skipped and reported in the error list.
+
 ### CSV Format
 ```csv
 name,price,categoryId,image
@@ -283,8 +288,37 @@ Mouse,29.99,1,
 Keyboard,79.99,1,keyboard.jpg
 ```
 
+**Required fields:**
+- `name`: Product name (string)
+- `price`: Product price (positive decimal)
+- `categoryId`: Must match an existing category ID (integer)
+
+**Optional fields:**
+- `image`: Image filename (leave empty if none)
+
 ### XLSX Format
 Same structure as CSV with columns: name, price, categoryId, image
+
+### Upload Response
+```json
+{
+  "success": true,
+  "message": "Bulk upload completed",
+  "summary": {
+    "total": 20,
+    "success": 18,
+    "failed": 2
+  },
+  "errors": [
+    {
+      "row": 5,
+      "error": "Category ID 10 not found"
+    }
+  ]
+}
+```
+
+For detailed bulk upload instructions, see `BULK_UPLOAD_GUIDE.md`
 
 ## Testing with Postman
 

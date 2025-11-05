@@ -1,29 +1,25 @@
 <nav class="navbar" *ngIf="authService.isLoggedIn()">
   <div class="container">
     <div class="nav-left">
-      <span class="brand">📦 Product Manager</span>
+      <span class="brand">Product Manager</span>
       <div class="nav-links">
         <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">
-          <span class="nav-icon">🎯</span>
-          <span>Dashboard</span>
+          Dashboard
         </a>
         <a routerLink="/users" routerLinkActive="active" class="nav-link">
-          <span class="nav-icon">👥</span>
-          <span>Users</span>
+          Users
         </a>
         <a routerLink="/categories" routerLinkActive="active" class="nav-link">
-          <span class="nav-icon">🏷️</span>
-          <span>Categories</span>
+          Categories
         </a>
         <a routerLink="/products" routerLinkActive="active" class="nav-link">
-          <span class="nav-icon">📦</span>
-          <span>Products</span>
+          Products
         </a>
       </div>
     </div>
     <div class="nav-right">
       <button class="btn btn-logout" (click)="logout()">
-        <span class="btn-icon">🚪</span> Logout
+        Logout
       </button>
     </div>
   </div>

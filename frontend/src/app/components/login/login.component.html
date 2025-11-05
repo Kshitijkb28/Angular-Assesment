@@ -1,6 +1,6 @@
 <div class="container" style="max-width: 500px; margin-top: 50px;">
   <div class="login-container">
-    <h2>{{ isLoginMode ? '🔐 Welcome Back' : '📝 Create Account' }}</h2>
+    <h2>{{ isLoginMode ? 'Welcome Back' : 'Create Account' }}</h2>
 
     <div *ngIf="error" class="alert alert-error">{{ error }}</div>
     <div *ngIf="success" class="alert alert-success">{{ success }}</div>
